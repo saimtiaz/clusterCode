@@ -2,16 +2,17 @@
 
 import os
 
+
 def objWriter(objects):
     #Sort by cuboid and spheres
     cuboids = []
     spheres = []
 
     for object in objects:
-        type = object['type']
-        if type == 'sphere':
+        objClass = object['type']
+        if objClass == 'sphere':
             spheres.append(object)
-        elif type == 'cuboid':
+        elif objClass == 'cuboid':
             cuboids.append(object)
 
     #Remove existing settings.yaml
@@ -44,8 +45,44 @@ def objWriter(objects):
     f.write('  input_device: ' + inputDevice + '\n')
     f.write('obstacles:\n')
     
-    #Write the cuboids header if there are cuboids
     #For loop and write each cuboid
+    if numCubes > 0:
+        f.write('  cuboids:\n')
+        counter = 1
+        for cube in cuboids:
+            cubeName = 'box' + str(counter)
+            cubeScale = str(cube['scale'])
+            cubeTrans = str(cube['translation'])
+            cubeRot = str(cube['rotation'])
+            animation = 'static'
+
+            f.write('    - name: ' + cubeName + '\n')
+            f.write('      scale: ' + cubeScale + '\n')
+            f.write('      translation: ' + cubeTrans + '\n')
+            f.write('      rotation: ' + cubeRot + '\n')
+            f.write('      animation: ' + animation + '\n')
+
+            counter = counter + 1
     #For loop and write each sphere
+    if numSpheres > 0:
+        f.write('  spheres:\n')
+        counter = 1
+        for sphere in spheres:
+            sphereName = 'sphere' + str(counter)
+            scale = sphere['scale']
+            if type(scale) is list:
+                scale = sphere['scale'][0]
+            sphereScale = str(scale)
+            sphereTrans = str(sphere['translation'])
+            sphereRot = str(sphere['rotation'])
+            animation = 'static'
+
+            f.write('    - name: ' + sphereName + '\n')
+            f.write('      scale: ' + sphereScale + '\n')
+            f.write('      translation: ' + sphereTrans + '\n')
+            f.write('      rotation: ' + sphereRot + '\n')
+            f.write('      animation: ' + animation + '\n')
+
+            counter = counter + 1
 
     f.close()
