@@ -1,7 +1,30 @@
 #! /usr/bin/env python
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from pypcd import pypcd
+
+def clusters2obj():
+    pointCloudDir = 'clusterPC'
+    fileList = os.listdir(pointCloudDir)
+    objectList = []
+    for file in fileList:
+        if (file.endswith(".pcd")):
+            fullFileName = os.path.join(pointCloudDir, file)
+            pc = pypcd.PointCloud.from_path(fullFileName)
+
+            allX = pc.pc_data['x']
+            allY =  pc.pc_data['y']
+            allZ = pc.pc_data['z']
+
+            object = cluster2obj([allX, allY, allZ])
+            objectList.append(object)
+
+    return objectList
+
+
+
 
 def cluster2obj(cluster):
     xS = cluster[0]
@@ -17,10 +40,10 @@ def cluster2obj(cluster):
     minZ = float(min(zS))
     maxZ = float(max(zS))
 
-    cornerPoints = [[minX, minX, minX, minX, maxX, maxX, maxX, maxX],
-                    [minY, maxY, minY, maxY, minY, maxY, minY, maxY],
-                    [minZ, minZ, maxZ, maxZ, minZ, minZ, maxZ, maxZ]
-    ]
+    # cornerPoints = [[minX, minX, minX, minX, maxX, maxX, maxX, maxX],
+    #                 [minY, maxY, minY, maxY, minY, maxY, minY, maxY],
+    #                 [minZ, minZ, maxZ, maxZ, minZ, minZ, maxZ, maxZ]
+    # ]
 
     xScale = round(maxX - minX, 2)
     yScale = round(maxY - minY, 2)
@@ -34,10 +57,10 @@ def cluster2obj(cluster):
             'rotation' : [0.0, 0.0, 0.0], 'translation' : [xTrans, yTrans, zTrans]}
     
 
-    fig = plt.figure(figsize=(4,4))
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(xS,yS,zS)
-    ax.scatter(cornerPoints[0], cornerPoints[1], cornerPoints[2])
+    # fig = plt.figure(figsize=(4,4))
+    # ax = fig.add_subplot(111, projection='3d')
+    # ax.scatter(xS,yS,zS)
+    #ax.scatter(cornerPoints[0], cornerPoints[1], cornerPoints[2])
 
 
     # u = np.linspace(0, 2 * np.pi, 100)
@@ -53,7 +76,7 @@ def cluster2obj(cluster):
 
     
 
-    plt.show()
+    # plt.show()
     return cube
 
     #obj = [minX, minX, minX, minX, maxX, maxX, maxX, maxX]
