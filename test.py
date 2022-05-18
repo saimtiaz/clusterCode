@@ -42,6 +42,14 @@ def viz_clusters(objects):
     fig = plt.figure(figsize=(4,4))
     ax = fig.add_subplot(111, projection='3d')
 
+    pc = pypcd.PointCloud.from_path('test_pcd.pcd')
+
+    allX = pc.pc_data['x']
+    allY =  pc.pc_data['y']
+    allZ = pc.pc_data['z']
+
+    #ax.scatter(allX, allY, allZ, marker = 'x', alpha = 0.01, linewidths = 0.5)
+
     pointCloudDir = 'clusterPC'
     fileList = os.listdir(pointCloudDir)
     for file in fileList:
@@ -60,7 +68,7 @@ def viz_clusters(objects):
         ax.scatter(cornerPoints[0], cornerPoints[1], cornerPoints[2])
 
     plt.show()
-    
+
 def getCorners(object):
     minX = object['translation'][0] - (object['scale'][0])/2
     maxX =  object['translation'][0] + (object['scale'][0])/2

@@ -40,11 +40,6 @@ def cluster2obj(cluster):
     minZ = float(min(zS))
     maxZ = float(max(zS))
 
-    # cornerPoints = [[minX, minX, minX, minX, maxX, maxX, maxX, maxX],
-    #                 [minY, maxY, minY, maxY, minY, maxY, minY, maxY],
-    #                 [minZ, minZ, maxZ, maxZ, minZ, minZ, maxZ, maxZ]
-    # ]
-
     xScale = round(maxX - minX, 2)
     yScale = round(maxY - minY, 2)
     zScale = round(maxZ - minZ, 2)
@@ -55,13 +50,6 @@ def cluster2obj(cluster):
 
     cube = {'type' : 'cuboid', 'scale' : [xScale, yScale, zScale], 
             'rotation' : [0.0, 0.0, 0.0], 'translation' : [xTrans, yTrans, zTrans]}
-    
-
-    # fig = plt.figure(figsize=(4,4))
-    # ax = fig.add_subplot(111, projection='3d')
-    # ax.scatter(xS,yS,zS)
-    #ax.scatter(cornerPoints[0], cornerPoints[1], cornerPoints[2])
-
 
     # u = np.linspace(0, 2 * np.pi, 100)
     # v = np.linspace(0, np.pi, 100)
@@ -73,13 +61,8 @@ def cluster2obj(cluster):
     # ax.plot_surface(x, y, z,  rstride=4, cstride=4, color='b', linewidth=0, alpha=0.5)
     # #calculate vectors for "vertical" circle
 
-
-    
-
-    # plt.show()
     return cube
 
-    #obj = [minX, minX, minX, minX, maxX, maxX, maxX, maxX]
 
 
 
